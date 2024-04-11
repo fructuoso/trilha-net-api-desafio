@@ -8,7 +8,8 @@ Este repositório é um *fork* do projeto original [digitalinnovationone/trilha-
 ### Modificações Realizadas:
 Para assegurar que o repositório esteja plenamente operacional para nossa demonstração, implementamos a seguinte alteração crítica:
 
-- **Atualização do Entity Framework:** Para simplificar a execução e tornar o ambiente de demonstração mais acessível, modificamos a configuração do Entity Framework para utilizar um banco de dados InMemory, eliminando a necessidade de um SQL Server externo.
+- **Atualização do Entity Framework:** Para simplificar a execução e tornar o ambiente de demonstração mais acessível, modificamos a configuração do Entity Framework para utilizar um banco de dados InMemory, eliminando a necessidade de um SQL Server externo;
+- **Segregação Pastas:** Para que seja possível isolar o código do projeto de testes do código do projeto de API foi necessário mover todo o código original para uma pasta chamada `src`;
 
 Agradeço seu interesse e apoio à minha mentoria. Espero que as modificações e o conteúdo demonstrado possam servir como um recurso valioso para sua jornada de aprendizado em desenvolvimento de software e automação de CI/CD.
 
