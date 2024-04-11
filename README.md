@@ -3,7 +3,12 @@ www.dio.me
 
 ## Notas do Fructuoso sobre o Fork
 
-Este repositório é um *fork* do projeto original [digitalinnovationone/trilha-net-api-desafio](https://github.com/digitalinnovationone/trilha-net-api-desafio), adaptado especificamente para a mentoria **A Jornada do GitHub Actions: Descubra o Caminho para a Qualidade de Código**. Esta sessão de mentoria está agendada para o dia 6 de Maio de 2024, e tem como objetivo explorar práticas avançadas de CI/CD utilizando o GitHub Actions.
+Este repositório é um *fork* do projeto [digitalinnovationone/trilha-net-api-desafio](https://github.com/digitalinnovationone/trilha-net-api-desafio) que foi apresentado no módulo **Programação De APIs Com Banco de Dados**, adaptado especificamente para a mentoria **A Jornada do GitHub Actions: Descubra o Caminho para a Qualidade de Código**. Esta sessão de mentoria está agendada para o dia 6 de Maio de 2024, e tem como objetivo explorar práticas avançadas de CI/CD utilizando o GitHub Actions.
+
+É assumido como premissa que ao assistir a Live vocês já tenham completado os módulos:
+
+* Programação De APIs Com Banco de Dados
+* Trabalhando com Desenvolvimento Orientado a Testes
 
 ### Modificações Realizadas:
 Para assegurar que o repositório esteja plenamente operacional para nossa demonstração, implementamos a seguinte alteração crítica:
@@ -78,3 +83,12 @@ Para executar essa aplicação no terminal basta executar o comando abaixo:
 ```bash
 dotnet run TrilhaApiDesafio.csproj
 ```
+
+Para testar esta aplicação via terminal basta executar os comandos abaixo:
+
+```bash
+dotnet test /p:CollectCoverage=true /p:CoverletOutput=../coverage/ /p:CoverletOutputFormat=\"cobertura,json,opencover\"
+reportgenerator -reports:"./coverage/coverage.cobertura.xml" -targetdir:"./coverage/report" -reporttypes:Html
+```
+
+Obs.: O relatório com a cobertura de código será gerada em `coverage/report/index.htm`
