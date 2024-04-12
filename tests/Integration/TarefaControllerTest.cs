@@ -35,6 +35,19 @@ namespace TrilhaApiDesafio.Tests.Integration
             Assert.Equal(System.Net.HttpStatusCode.OK, response.StatusCode);
         }
 
+        [Fact(DisplayName = "Dada uma requisição GET para /Tarefa/{id}, onde {id}  não existe, deve retornar status code 404")]
+        public async Task TestObterPorId_Inexistente()
+        {
+            // Arrange
+            const int id = 0;
+
+            // Act
+            var response = await _client.GetAsync($"/Tarefa/{id}");
+
+            // Assert
+            Assert.Equal(System.Net.HttpStatusCode.NotFound, response.StatusCode);
+        }
+
 
         [Fact(DisplayName = "Dada uma requisição GET para /Tarefa/ObterTodos, deve retornar status code 200")]
         public async Task TestObterTodos()
@@ -81,7 +94,7 @@ namespace TrilhaApiDesafio.Tests.Integration
 
             // Act
             var response = await _client.GetAsync($"/Tarefa/ObterPorStatus?status={status}");
-            
+
 
             // Assert
             Assert.Equal(System.Net.HttpStatusCode.OK, response.StatusCode);
@@ -91,7 +104,8 @@ namespace TrilhaApiDesafio.Tests.Integration
         public async Task TestCriar()
         {
             // Arrange
-            var tarefa = new Tarefa() {
+            var tarefa = new Tarefa()
+            {
                 Titulo = "Tarefa A",
                 Descricao = "Descrição da tarefa A",
                 Data = System.DateTime.Now,
@@ -105,22 +119,81 @@ namespace TrilhaApiDesafio.Tests.Integration
             Assert.Equal(System.Net.HttpStatusCode.Created, response.StatusCode);
         }
 
+        [Fact(DisplayName = "Dada uma requisição POST para /Tarefa, onde uma data não foi especificada, deve retornar status code 400")]
+        public async Task TestCriar_SemData()
+        {
+            // Arrange
+            var tarefa = new Tarefa()
+            {
+                Titulo = "Tarefa A",
+                Descricao = "Descrição da tarefa A",
+                Status = EnumStatusTarefa.Pendente
+            };
+
+            // Act
+            var response = await _client.PostAsJsonAsync("/Tarefa", tarefa);
+
+            // Assert
+            Assert.Equal(System.Net.HttpStatusCode.BadRequest, response.StatusCode);
+        }
+
         [Fact(DisplayName = "Dada uma requisição PUT para /Tarefa/{id}, deve retornar status code 200")]
         public async Task TestAtualizar()
         {
             // Arrange
-            var tarefa = new Tarefa() {
+            const int id = 1;
+            var tarefa = new Tarefa()
+            {
                 Titulo = "Tarefa B",
                 Descricao = "Descrição da tarefa B",
                 Data = System.DateTime.Now.AddDays(2),
                 Status = EnumStatusTarefa.Pendente
-             };
+            };
 
             // Act
-            var response = await _client.PutAsJsonAsync("/Tarefa/1", tarefa);
+            var response = await _client.PutAsJsonAsync($"/Tarefa/{id}", tarefa);
 
             // Assert
             Assert.Equal(System.Net.HttpStatusCode.OK, response.StatusCode);
+        }
+
+        [Fact(DisplayName = "Dada uma requisição PUT para /Tarefa/{id}, onde {id} não existe, deve retornar status code 404")]
+        public async Task TestAtualizar_Inexistente()
+        {
+            // Arrange
+            const int id = 0;
+            var tarefa = new Tarefa()
+            {
+                Titulo = "Tarefa B",
+                Descricao = "Descrição da tarefa B",
+                Data = System.DateTime.Now.AddDays(2),
+                Status = EnumStatusTarefa.Pendente
+            };
+
+            // Act
+            var response = await _client.PutAsJsonAsync($"/Tarefa/{id}", tarefa);
+
+            // Assert
+            Assert.Equal(System.Net.HttpStatusCode.NotFound, response.StatusCode);
+        }
+
+        [Fact(DisplayName = "Dada uma requisição PUT para /Tarefa/{id}, onde uma data não foi especificada, deve retornar status code 200")]
+        public async Task TestAtualizar_SemData()
+        {
+            // Arrange
+            const int id = 1;
+            var tarefa = new Tarefa()
+            {
+                Titulo = "Tarefa B",
+                Descricao = "Descrição da tarefa B",
+                Status = EnumStatusTarefa.Pendente
+            };
+
+            // Act
+            var response = await _client.PutAsJsonAsync($"/Tarefa/{id}", tarefa);
+
+            // Assert
+            Assert.Equal(System.Net.HttpStatusCode.BadRequest, response.StatusCode);
         }
 
         [Fact(DisplayName = "Dada uma requisição DELETE para /Tarefa/{id}, deve retornar status code 204")]
@@ -134,6 +207,19 @@ namespace TrilhaApiDesafio.Tests.Integration
 
             // Assert
             Assert.Equal(System.Net.HttpStatusCode.NoContent, response.StatusCode);
+        }
+
+        [Fact(DisplayName = "Dada uma requisição DELETE para /Tarefa/{id}, onde {id} não existe, deve retornar status code 404")]
+        public async Task TestDeletar_Inexistente()
+        {
+            // Arrange
+            const int id = 0;
+
+            // Act
+            var response = await _client.DeleteAsync($"/Tarefa/{id}");
+
+            // Assert
+            Assert.Equal(System.Net.HttpStatusCode.NotFound, response.StatusCode);
         }
     }
 }

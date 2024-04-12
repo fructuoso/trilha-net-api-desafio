@@ -31,6 +31,8 @@ namespace TrilhaApiDesafio.Tests.Integration.Setup
 
         protected override IHost CreateHost(IHostBuilder builder)
         {
+            Console.WriteLine("AQUI");
+
             var host = base.CreateHost(builder);
 
             SeedDatabase(host.Services);
