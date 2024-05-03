@@ -35,6 +35,7 @@ jobs:
       run: |
         echo $(pwd)
         ls
+        cat coverage.xml
 
     - name: Analyze with SonarCloud
       uses: sonarsource/sonarcloud-github-action@master
@@ -42,11 +43,10 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       with:
-        projectBaseDir: /home/runner/work/trilha-net-api-desafio/trilha-net-api-desafio/
         args: >
           -Dsonar.organization=fructuoso
           -Dsonar.projectKey=fructuoso_trilha-net-api-desafio3
           -Dsonar.cs.vscoveragexml.reportsPaths=coverage.xml
-          -Dsonar.sources=src/
+          -Dsonar.sources=src
           -Dsonar.verbose=true
           -Dsonar.log.level=TRACE
