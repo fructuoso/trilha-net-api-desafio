@@ -1,44 +1,64 @@
 name: CI
 
 on:
-  pull_request:
+  push:
     branches:
-      - main
+      - feature/live-github-actions
+  pull_request:
+    types: [opened, synchronize, reopened]
 
 jobs:
-  build:
+  build-and-sonar:
     runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-    steps:            
-    - uses: actions/checkout@v2
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'zulu'
 
-    - name: Set up JDK 17
-      uses: actions/setup-java@v3
-      with:
-        distribution: 'temurin'  # Pode ser 'zulu', 'adopt' etc.
-        java-version: '17'
-        
-    - name: Set up .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: '6.0.x'
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 6.x
 
-    - name: Install SonarCloud scanner
-      run: |
-        dotnet tool install --global dotnet-coverage
-        dotnet tool install --global dotnet-sonarscanner
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v4
+        with:
+          path: ~/sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
 
-    - name: Restore dependencies
-      run: dotnet restore
+      - name: Cache SonarCloud scanner
+        id: cache-sonar-scanner
+        uses: actions/cache@v4
+        with:
+          path: ./.sonar/scanner
+          key: ${{ runner.os }}-sonar-scanner
+          restore-keys: ${{ runner.os }}-sonar-scanner
 
-    - name: Build the solution
-      run: dotnet build --no-restore      
+      - name: Install SonarCloud scanner
+        if: ${{ steps.cache-sonar-scanner.outputs.cache-hit != 'true' }}
+        run: |
+          mkdir -p .sonar/scanner
+          dotnet tool update dotnet-sonarscanner --tool-path .sonar/scanner
 
-    - name: Run tests and generate code coverage
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      run: |
-        dotnet sonarscanner begin /k:"fructuoso_trilha-net-api-desafio" /o:"fructuoso" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml" /d:sonar.exclusions="**/Migrations/**" /d:sonar.log.level=DEBUG
-        dotnet test /p:CollectCoverage=true /p:CoverletOutput=../coverage/ /p:CoverletOutputFormat=\"opencover\"
-        dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"    
+      - name: Install SonarCloud scanner
+        run: |
+          dotnet tool install --global dotnet-sonarscanner
+          dotnet tool install --global dotnet-coverage
+
+      - name: Build and analyze
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          dotnet-sonarscanner begin /k:"fructuoso_trilha-net-api-desafio" /o:"fructuoso" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml /d:sonar.exclusions="**/Migrations/**"
+          dotnet restore
+          dotnet build --no-restore
+          dotnet-coverage collect 'dotnet test' -f xml -o 'coverage.xml'
+          dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
