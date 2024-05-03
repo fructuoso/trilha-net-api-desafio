@@ -88,7 +88,7 @@ Para testar esta aplicação via terminal basta executar os comandos abaixo:
 
 ```bash
 dotnet test /p:CollectCoverage=true /p:CoverletOutput=../coverage/ /p:CoverletOutputFormat=\"cobertura,json,opencover\"
-reportgenerator -reports:"./coverage/coverage.cobertura.xml" -targetdir:"./coverage/report" -reporttypes:Html
+reportgenerator -reports:"./coverage/coverage.cobertura.xml" -targetdir:"./coverage/report" -reporttypes:Html -classfilters:"-*.Migrations.*"
 ```
 
 Obs.: O relatório com a cobertura de código será gerada em `coverage/report/index.htm`
