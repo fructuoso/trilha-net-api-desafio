@@ -33,6 +33,6 @@ jobs:
       with:
         args: >
           -Dsonar.projectKey=fructuoso_trilha-net-api-desafio
-          -Dsonar.organization=YourSonarOrganization
+          -Dsonar.organization=fructuoso
           -Dsonar.host.url=https://sonarcloud.io
           -Dsonar.cs.opencover.reportsPaths=**/coverage.opencover.xml
