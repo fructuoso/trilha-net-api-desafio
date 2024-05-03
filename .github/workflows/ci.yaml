@@ -38,13 +38,9 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       with:
-        projectBaseDir: ./
         args: >
           -Dsonar.organization=fructuoso
           -Dsonar.projectKey=fructuoso_trilha-net-api-desafio3
           -Dsonar.cs.vscoveragexml.reportsPaths=coverage.xml
-          -Dsonar.sources=**/src/**
-          -Dsonar.test.exclusions=**/tests/**
-          -Dsonar.tests=tests/
           -Dsonar.verbose=true
           -Dsonar.log.level=TRACE
