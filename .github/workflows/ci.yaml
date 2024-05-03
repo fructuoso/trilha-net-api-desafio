@@ -24,7 +24,7 @@ jobs:
       run: dotnet build --no-restore
 
     - name: Test with coverage
-      run: dotnet test --no-build --collect:"Code Coverage"
+      run: dotnet test /p:CollectCoverage=true /p:CoverletOutput=../coverage/ /p:CoverletOutputFormat=\"opencover\"
 
     - name: Report to SonarCloud
       uses: SonarSource/sonarcloud-github-action@master
@@ -36,3 +36,4 @@ jobs:
           -Dsonar.organization=fructuoso
           -Dsonar.host.url=https://sonarcloud.io
           -Dsonar.cs.opencover.reportsPaths=**/coverage.opencover.xml
+          -Dsonar.coverage.exclusions=**/Migrations/**
