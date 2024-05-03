@@ -43,8 +43,8 @@ jobs:
           -Dsonar.organization=fructuoso
           -Dsonar.projectKey=fructuoso_trilha-net-api-desafio3
           -Dsonar.cs.vscoveragexml.reportsPaths=coverage.xml
-          -Dsonar.sources=src/
-          -Dsonar.test.exclusions=tests/**
+          -Dsonar.sources=**/src/**
+          -Dsonar.test.exclusions=**/tests/**
           -Dsonar.tests=tests/
           -Dsonar.verbose=true
           -Dsonar.log.level=TRACE
