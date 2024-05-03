@@ -26,27 +26,19 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
 
-    - name: Build
-      run: dotnet build --no-restore
-
     - name: Install SonarCloud scanner
       run: |
         dotnet tool install --global dotnet-sonarscanner
         dotnet tool install --global dotnet-coverage
-
-    - name: Configure Sonar Cloud
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      run: |
-        dotnet-sonarscanner begin /k:"fructuoso_trilha-net-api-desafio" /o:"fructuoso" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml /d:sonar.exclusions="**/Migrations/**"
         
     - name: Test with coverage
-      run: dotnet-coverage collect 'dotnet test ./tests/' -f xml  -o 'coverage.xml'
-
-    - name: Analize Sonar Cloud
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      run: |
-        dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"      
+      run: | 
+        dotnet sonarscanner begin /k:"fructuoso_trilha-net-api-desafio2"
+          /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+          /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
+        dotnet build --no-incremental
+        dotnet-coverage collect "dotnet test" -f xml -o "coverage.xml"
+        dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
