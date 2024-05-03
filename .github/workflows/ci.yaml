@@ -20,6 +20,7 @@ jobs:
     - name: Install SonarCloud scanner
       run: |
         dotnet tool install --global dotnet-coverage
+        dotnet tool install --global dotnet-sonarscanner
 
     - name: Restore dependencies
       run: dotnet restore
