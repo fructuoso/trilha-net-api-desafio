@@ -23,6 +23,10 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
 
+    - name: Install SonarCloud scanner
+      run: |
+        dotnet tool install --global dotnet-sonarscanner
+
     - name: Configure Sonar Cloud
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
