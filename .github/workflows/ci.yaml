@@ -24,7 +24,7 @@ jobs:
       run: dotnet build --no-restore
 
     - name: Test with coverage
-      run: dotnet test --no-build --collect:"XPlat Code Coverage"
+      run: dotnet test --no-build --collect:"Code Coverage"
 
     - name: Report to SonarCloud
       uses: SonarSource/sonarcloud-github-action@master
