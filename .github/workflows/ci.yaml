@@ -29,22 +29,11 @@ jobs:
 
     - name: Run tests and generate code coverage
       run: | 
-        dotnet-coverage collect 'dotnet test' -f xml  -o 'coverage.xml'
-
-    - name: Test
-      run: |
-        ls /github/workspace
-
-    - name: Analyze with SonarCloud
-      uses: sonarsource/sonarcloud-github-action@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      with:
-        args: >
-          -Dsonar.organization=fructuoso
-          -Dsonar.projectKey=fructuoso_trilha-net-api-desafio3
-          -Dsonar.cs.vscoveragexml.reportsPaths=coverage.xml
-          -Dsonar.sources=src
-          -Dsonar.verbose=true
-          -Dsonar.log.level=TRACE
+        dotnet sonarscanner begin
+          /k:"fructuoso_trilha-net-api-desafio"
+          /d:sonar.token=${{ secrets.GITHUB_TOKEN }}
+          /d:sonar.cs.opencover.reportsPaths=coverage/coverage.opencover.xml
+          /d:sonar.log.level=TRACE
+        dotnet test /p:CollectCoverage=true /p:CoverletOutput=../coverage/ /p:CoverletOutputFormat=\"opencover\"
+        dotnet sonarscanner end
+          /d:sonar.token=${{ secrets.SONAR_TOKEN }}
