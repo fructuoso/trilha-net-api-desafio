@@ -24,18 +24,7 @@ jobs:
       run: dotnet build --no-restore      
 
     - name: Run tests and generate code coverage
-      run: dotnet test /p:CollectCoverage=true /p:CoverletOutput=../coverage/ /p:CoverletOutputFormat=\"cobertura,opencover\"
-
-    - name: Report code coverage to SonarCloud
-      uses: sonarsource/sonarcloud-github-action@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      with:
-        args: >
-          -Dsonar.token=${{ secrets.SONAR_TOKEN }}
-          -Dsonar.organization=fructuoso
-          -Dsonar.projectKey=fructuoso_trilha-net-api-desafio3
+      run: dotnet test /p:CollectCoverage=true /p:CoverletOutput=../coverage/ /p:CoverletOutputFormat=\"opencover\"
 
     - name: Analyze with SonarCloud
       uses: sonarsource/sonarcloud-github-action@master
