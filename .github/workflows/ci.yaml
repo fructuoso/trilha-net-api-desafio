@@ -31,11 +31,10 @@ jobs:
       run: | 
         dotnet-coverage collect 'dotnet test' -f xml  -o 'coverage.xml'
 
-    - name: Publish Artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: coverage-report
-        path: ./
+    - name: Test
+      run: |
+        echo $(pwd)
+        ls
 
     - name: Analyze with SonarCloud
       uses: sonarsource/sonarcloud-github-action@master
