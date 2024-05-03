@@ -29,20 +29,15 @@ jobs:
       run: dotnet build --no-restore      
 
     - name: Run tests and generate code coverage
-      run: | 
-        dotnet sonarscanner begin /k:"fructuoso_trilha-net-api-desafio"
-        /o:fructuoso /d:sonar.token=${{ secrets.GITHUB_TOKEN }}
-        /d:sonar.host.url="https://sonarcloud.io"
-        /d:sonar.cs.opencover.reportsPaths=coverage/coverage.opencover.xml
-        /d:sonar.log.level=TRACE
-        dotnet test /p:CollectCoverage=true /p:CoverletOutput=../coverage/ /p:CoverletOutputFormat=\"opencover\"
-        dotnet sonarscanner end /d:sonar.token=${{ secrets.SONAR_TOKEN }}
-
-    - name: Run tests and generate code coverage
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       run: |
-        dotnet-sonarscanner begin /k:"fructuoso_trilha-net-api-desafio" /o:"fructuoso" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths=coverage/coverage.opencover.xml /d:sonar.exclusions="**/Migrations/**"
+        dotnet sonarscanner begin /k:"fructuoso_trilha-net-api-desafio"
+        /o:"fructuoso"
+        /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+        /d:sonar.host.url="https://sonarcloud.io"
+        /d:sonar.cs.opencover.reportsPaths=coverage/coverage.opencover.xml
+        /d:sonar.exclusions="**/Migrations/**"
         dotnet test /p:CollectCoverage=true /p:CoverletOutput=../coverage/ /p:CoverletOutputFormat=\"opencover\"
-        dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"    
+        dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"    
