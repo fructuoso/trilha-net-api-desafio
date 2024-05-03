@@ -23,18 +23,19 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
 
-    - name: Test with coverage
-      run: dotnet test /p:CollectCoverage=true /p:CoverletOutput=../coverage/ /p:CoverletOutputFormat=\"opencover\"
-
-    - name: Report to SonarCloud
-      uses: SonarSource/sonarcloud-github-action@master
+    - name: Configure Sonar Cloud
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      with:
-        args: >
-          -Dsonar.projectKey=fructuoso_trilha-net-api-desafio
-          -Dsonar.organization=fructuoso
-          -Dsonar.host.url=https://sonarcloud.io
-          -Dsonar.cs.opencover.reportsPaths=**/coverage.opencover.xml
-          -Dsonar.coverage.exclusions=**/Migrations/**
+      run: |
+        dotnet-sonarscanner begin /k:"fructuoso_trilha-net-api-desafio" /o:"fructuoso" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml /d:sonar.exclusions="**/Migrations/**"
+        
+    - name: Test with coverage
+      run: dotnet-coverage collect 'dotnet test ./tests/' -f xml  -o 'coverage.xml'
+
+    - name: Analize Sonar Cloud
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      run: |
+        dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"      
