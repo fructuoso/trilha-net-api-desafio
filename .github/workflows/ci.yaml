@@ -36,4 +36,17 @@ jobs:
           -Dsonar.token=${{ secrets.SONAR_TOKEN }}
           -Dsonar.organization=fructuoso
           -Dsonar.projectKey=fructuoso_trilha-net-api-desafio3
+
+    - name: Analyze with SonarCloud
+      uses: sonarsource/sonarcloud-github-action@master
+      with:
+        projectBaseDir: ./
+        args: >
+          -Dsonar.organization=fructuoso
+          -Dsonar.projectKey=fructuoso_trilha-net-api-desafio3
           -Dsonar.cs.opencover.reportsPaths=**/coverage.opencover.xml
+          -Dsonar.sources=src/
+          -Dsonar.test.exclusions=tests/**
+          -Dsonar.tests=tests/
+          -Dsonar.verbose=true
+          -Dsonar.log.level=TRACE
