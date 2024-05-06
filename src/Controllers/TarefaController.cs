@@ -100,5 +100,18 @@ namespace TrilhaApiDesafio.Controllers
 
             return NoContent();
         }
+
+        public IActionResult Deletar2(int id)
+        {
+            var tarefaBanco = _context.Tarefas.Find(id);
+
+            if (tarefaBanco == null)
+                return NotFound();
+
+            _context.Tarefas.Remove(tarefaBanco);
+            _context.SaveChanges();
+
+            return NoContent();
+        }
     }
 }
