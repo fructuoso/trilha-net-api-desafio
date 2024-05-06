@@ -21,7 +21,7 @@ namespace TrilhaApiDesafio.Controllers
             var tarefa = _context.Tarefas.Find(id);
 
             if (tarefa == null)
-                return NotFound();
+                return NoContent();
 
             return Ok(tarefa);
         }
