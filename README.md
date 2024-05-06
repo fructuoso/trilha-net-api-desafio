@@ -1,5 +1,23 @@
-# DIO - Trilha .NET - API e Entity Framework
+ # DIO - Trilha .NET - API e Entity Framework
 www.dio.me
+
+## Notas do Fructuoso sobre o Fork
+
+Este repositório é um *fork* do projeto [digitalinnovationone/trilha-net-api-desafio](https://github.com/digitalinnovationone/trilha-net-api-desafio) que foi apresentado no módulo **Programação De APIs Com Banco de Dados**, adaptado especificamente para a mentoria **A Jornada do GitHub Actions: Descubra o Caminho para a Qualidade de Código**. Esta sessão de mentoria está agendada para o dia 6 de Maio de 2024, e tem como objetivo explorar práticas avançadas de CI/CD utilizando o GitHub Actions.
+
+É assumido como premissa que ao assistir a Live vocês já tenham completado os módulos:
+
+* Programação De APIs Com Banco de Dados
+* Trabalhando com Desenvolvimento Orientado a Testes
+
+### Modificações Realizadas:
+Para assegurar que o repositório esteja plenamente operacional para nossa demonstração, implementamos a seguinte alteração crítica:
+
+- **Atualização do Entity Framework:** Para simplificar a execução e tornar o ambiente de demonstração mais acessível, modificamos a configuração do Entity Framework para utilizar um banco de dados InMemory, eliminando a necessidade de um SQL Server externo;
+- **Segregação Pastas:** Para que seja possível isolar o código do projeto de testes do código do projeto de API foi necessário mover todo o código original para uma pasta chamada `src`;
+
+Agradeço seu interesse e apoio à minha mentoria. Espero que as modificações e o conteúdo demonstrado possam servir como um recurso valioso para sua jornada de aprendizado em desenvolvimento de software e automação de CI/CD.
+
 
 ## Desafio de projeto
 Para este desafio, você precisará usar seus conhecimentos adquiridos no módulo de API e Entity Framework, da trilha .NET da DIO.
@@ -56,3 +74,21 @@ Esse é o schema (model) de Tarefa, utilizado para passar para os métodos que e
 
 ## Solução
 O código está pela metade, e você deverá dar continuidade obedecendo as regras descritas acima, para que no final, tenhamos um programa funcional. Procure pela palavra comentada "TODO" no código, em seguida, implemente conforme as regras acima.
+
+
+## Como Executar (VS Code)
+
+Para executar essa aplicação no terminal basta executar o comando abaixo:
+
+```bash
+dotnet run TrilhaApiDesafio.csproj
+```
+
+Para testar esta aplicação via terminal basta executar os comandos abaixo:
+
+```bash
+dotnet test /p:CollectCoverage=true /p:CoverletOutput=../coverage/ /p:CoverletOutputFormat=\"cobertura,json,opencover\"
+reportgenerator -reports:"./coverage/coverage.cobertura.xml" -targetdir:"./coverage/report" -reporttypes:Html -classfilters:"-*.Migrations.*"
+```
+
+Obs.: O relatório com a cobertura de código será gerada em `coverage/report/index.htm`
