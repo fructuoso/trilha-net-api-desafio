@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TrilhaApiDesafio.Context;
-using TrilhaApiDesafio.Models;
 
 namespace TrilhaApiDesafio.Tests.Integration.Setup
 {
@@ -31,8 +30,6 @@ namespace TrilhaApiDesafio.Tests.Integration.Setup
 
         protected override IHost CreateHost(IHostBuilder builder)
         {
-            Console.WriteLine("AQUI");
-
             var host = base.CreateHost(builder);
 
             SeedDatabase(host.Services);
@@ -45,7 +42,6 @@ namespace TrilhaApiDesafio.Tests.Integration.Setup
             using (var scope = serviceProvider.CreateScope())
             {
                 var dbInitializer = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
-                // dbInitializer.Initialize();
                 dbInitializer.SeedData();
             }
         }
