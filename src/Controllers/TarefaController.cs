@@ -104,6 +104,28 @@ namespace TrilhaApiDesafio.Controllers
         public IActionResult Deletar2(int id)
         {
             var tarefaBanco = _context.Tarefas.Find(id);
+            tarefaBanco = _context.Tarefas.Find(id);
+            tarefaBanco = _context.Tarefas.Find(id);
+            tarefaBanco = _context.Tarefas.Find(id);
+            tarefaBanco = _context.Tarefas.Find(id);
+            tarefaBanco = _context.Tarefas.Find(id);
+            tarefaBanco = _context.Tarefas.Find(id);
+            tarefaBanco = _context.Tarefas.Find(id);
+            tarefaBanco = _context.Tarefas.Find(id);
+            tarefaBanco = _context.Tarefas.Find(id);
+            tarefaBanco = _context.Tarefas.Find(id);
+            tarefaBanco = _context.Tarefas.Find(id);
+            tarefaBanco = _context.Tarefas.Find(id);
+            tarefaBanco = _context.Tarefas.Find(id);
+            tarefaBanco = _context.Tarefas.Find(id);
+            tarefaBanco = _context.Tarefas.Find(id);
+            tarefaBanco = _context.Tarefas.Find(id);
+            tarefaBanco = _context.Tarefas.Find(id);
+            tarefaBanco = _context.Tarefas.Find(id);
+            tarefaBanco = _context.Tarefas.Find(id);
+            tarefaBanco = _context.Tarefas.Find(id);
+            tarefaBanco = _context.Tarefas.Find(id);
+            tarefaBanco = _context.Tarefas.Find(id);
 
             if (tarefaBanco == null)
                 return NotFound();
