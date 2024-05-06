@@ -23,6 +23,10 @@ namespace TrilhaApiDesafio.Controllers
             if (tarefa == null)
                 return NotFound();
 
+            var breakMyCode = 0;
+            while (1==1)
+                breakMyCode++;
+
             return Ok(tarefa);
         }
 
